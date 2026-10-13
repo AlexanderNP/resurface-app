@@ -213,6 +213,7 @@
 | 010 | Доступ к базе через Drizzle ORM. | Заполняет автор в [adr/010](adr/010-dostup-k-baze-drizzle.md). |
 | 011 | Дерево папок хранится списком смежности (`parent_id`). | Заполняет автор в [adr/011](adr/011-derevo-papok-spisok-smezhnosti.md). |
 | 012 | Личность пользователя на этапе 1: заголовок `X-User-Id` и guard. | Заполняет автор в [adr/012](adr/012-lichnost-polzovatelya-zagolovok.md). |
+| 013 | Структура кода: модули по фичам со слоями сверху вниз (адаптация FEOD под Nest). | Заполняет автор в [adr/013](adr/013-struktura-prilozheniya.md). |
 
 Полные записи лежат в [adr/](adr/); эта таблица — сводка.
 
