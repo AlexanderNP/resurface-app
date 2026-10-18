@@ -14,4 +14,7 @@ export default class {
   @Min(1)
   @Max(65535)
   POSTGRES_PORT: number;
+
+  @IsString()
+  POSTGRES_HOST: string;
 }

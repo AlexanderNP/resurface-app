@@ -6,6 +6,8 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ConfigModule } from '@nestjs/config';
 import { validate } from '../config/validation.js';
+import { DrizzleModule } from '../database/index.js';
+import { HealthModule } from '../modules/health/index.js';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { validate } from '../config/validation.js';
       envFilePath: './.env',
       validate,
     }),
+    DrizzleModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
