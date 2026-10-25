@@ -1,0 +1,91 @@
+// Черновик схемы данных, пункт 2.1 roadmap.
+// Решения и их причины — docs/adr/005-identichnost-stranicy-i-skhema-dannyh.md.
+// Просмотр: вставить файл целиком в https://dbdiagram.io/d (диаграмма строится сама).
+// Синтаксис: https://dbml.dbdiagram.io/docs/
+
+// Enum page_status {
+//   Pending // в очереди
+//   Started // выполняется/обрабатывается
+//   Sucesss // готово/успешно
+//   Failed // сбой/ошибка
+//   WaitRetry // ждет повтор
+// }
+
+Enum url_variant_kind {
+  canonical
+  redirect
+  normalized
+}
+
+Enum visibility {
+  public
+  private
+}
+
+Table users {
+  id uuid [pk]
+  created_at timestamptz [not null, default: `now()`]
+}
+
+Table pages {
+  id bigint [pk, note: 'generated always as identity']
+  url text [not null, unique] //  адрес для показа: первый нормализованный адрес
+  // title text // [not null] после добавления модуля // max_length=255, min_length=1
+  // keywords "text[]" // [not null] после добавления модуля
+  // auto_category text
+  // status page_status // [not null] после добавления модуля
+  // fetched_at timestamptz // [not null] после добавления модуля
+  // created_at timestamptz // [not null] после добавления модуля
+  // is_public bool [default: false]
+}
+
+Table user_pages {
+  user_id uuid
+  page_id bigint
+  folder_id uuid [null] // null -> Папка "Входяшие"
+  // note text // max_length=255, min_length=1
+  // tags "text[]" // [not null] после добавления модуля
+  // tab_title text // [not null] после добавления модуля // max_length=255, min_length=1
+  saved_at timestamptz [not null, default: `now()`]
+  // visibility visibility // [not null] после добавления модуля
+
+  indexes {
+    (user_id, page_id) [pk]
+    (user_id, saved_at, page_id)
+  }
+}
+
+Table url_variants {
+  url text [pk]
+  page_id bigint [not null]
+  kind url_variant_kind [not null]
+  created_at timestamptz [not null]
+
+  checks {
+    `OCTET_LENGTH(url) <= 2048` [name: 'check_bytes_length']
+  }
+}
+
+Table folders {
+  id uuid [pk]
+  user_id uuid [not null]
+  parent_id uuid
+  name text [not null] // max_length=255, min_length=1
+  // auto_category text
+  created_at timestamptz [not null, default: `now()`]
+
+  indexes {
+    (user_id, id) [unique]
+    (user_id, parent_id, name) [unique] // UNIQUE NULLS NOT DISTINT + uniq name
+  }
+}
+
+Ref: users.id < folders.user_id [delete: cascade]
+
+Ref: user_pages.(user_id, folder_id) > folders.(user_id, id) // ON DELETE SET NULL (folder_id)
+Ref: folders.(user_id, parent_id) >? folders.(user_id, id) [delete: cascade]
+
+Ref: users.id < user_pages.user_id [delete: cascade]
+Ref: pages.id < user_pages.page_id [delete: restrict]
+
+Ref: pages.id < url_variants.page_id [delete: cascade]
