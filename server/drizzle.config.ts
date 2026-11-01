@@ -1,13 +1,13 @@
-import { existsSync } from "node:fs";
-import { loadEnvFile } from "node:process";
-import { defineConfig } from "drizzle-kit";
+import { existsSync } from 'node:fs';
+import { loadEnvFile } from 'node:process';
+import { defineConfig } from 'drizzle-kit';
 
-loadEnvFileIfExist()
+loadEnvFileIfExist();
 
 export default defineConfig({
-  dialect: "postgresql",
-  schema: "./src/database/schema",
-  out: "./src/database/migrations",
+  dialect: 'postgresql',
+  schema: './src/database/schema',
+  out: './src/database/migrations',
   dbCredentials: {
     host: required(process.env, 'POSTGRES_HOST'),
     port: requiredInt(process.env, 'POSTGRES_PORT'),
@@ -15,13 +15,14 @@ export default defineConfig({
     password: required(process.env, 'POSTGRES_PASSWORD'),
     database: required(process.env, 'POSTGRES_DB'),
     ssl: false,
-  }
+  },
 });
 
 function required(env: typeof process.env, key: string): string {
   const value = env[key];
 
-  if (value === undefined || value.trim() === "") throw new Error(`[${key}]: is a required environment variable`);
+  if (value === undefined || value.trim() === '')
+    throw new Error(`[${key}]: is a required environment variable`);
 
   return value;
 }
