@@ -1,6 +1,6 @@
-import { Controller, Get } from "@nestjs/common";
-import { HealthCheck, HealthCheckService } from "@nestjs/terminus";
-import { DrizzleDBHealthIndicator } from "./indicators/drizzle-db.health.js";
+import { Controller, Get } from '@nestjs/common';
+import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
+import { DrizzleDBHealthIndicator } from './indicators/drizzle-db.health.js';
 
 @Controller('health')
 export class HealthController {
@@ -12,8 +12,6 @@ export class HealthController {
   @Get()
   @HealthCheck()
   check() {
-    return this.health.check([
-      () => this.db.isHealthy('database'),
-    ]);
+    return this.health.check([() => this.db.isHealthy('database')]);
   }
 }

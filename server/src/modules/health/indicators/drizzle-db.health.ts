@@ -1,8 +1,8 @@
-import { sql } from "drizzle-orm";
-import { Injectable } from "@nestjs/common";
-import { HealthIndicatorService } from "@nestjs/terminus";
-import { InjectDrizzle } from "../../../database/index.js";
-import type { DrizzleDB } from "../../../database/index.js";
+import { sql } from 'drizzle-orm';
+import { Injectable } from '@nestjs/common';
+import { HealthIndicatorService } from '@nestjs/terminus';
+import { InjectDrizzle } from '../../../database/index.js';
+import type { DrizzleDB } from '../../../database/index.js';
 
 @Injectable()
 export class DrizzleDBHealthIndicator {

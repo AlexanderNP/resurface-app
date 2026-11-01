@@ -1,3 +1,3 @@
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 export type DrizzleDB = NodePgDatabase;
