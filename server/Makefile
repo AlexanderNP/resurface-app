@@ -53,3 +53,6 @@ test: ## Запустить unit-тесты
 
 test-e2e: ## Запустить e2e-тесты
 	npm run test:e2e
+
+test-int: ## Ззапустить тесты на настоящем Postgres, каждый тест стартует с известного состояния
+	npm run test:int
